@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         progressBar=findViewById(R.id.rss_progress_bar)
         progressBar.minWidth=1
+        progressBar.scaleY = 4f
         progressBar.maxWidth=100
 
         recyclerView = findViewById(R.id.rss_recycler_view)

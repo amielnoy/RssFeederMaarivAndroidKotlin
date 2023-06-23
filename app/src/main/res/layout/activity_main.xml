@@ -16,25 +16,25 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="256dp"
         android:layout_height="85dp"
-        android:minWidth="50dp"
-        android:minHeight="50dp"
+        android:minWidth="100dp"
+        android:minHeight="100dp"
         android:visibility="visible" />
     <TextView
         android:id="@+id/text_view_rss_desction"
         android:layout_width="match_parent"
         android:layout_height="88dp"
-        android:text="TextView"  />
+        android:textSize="32sp"
+        android:text="@string/DETAILS_OF_MAARIV_RSS_FEED"  />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rss_recycler_view"
         android:layout_width="match_parent"
-
         android:layout_height="297dp" />
 
     <Button
         android:id="@+id/button_get_rss_item"
         android:layout_width="198dp"
         android:layout_height="wrap_content"
-        android:text="Get Rss Item" />
+        android:text="@string/get_rss_item" />
 
 </LinearLayout>
