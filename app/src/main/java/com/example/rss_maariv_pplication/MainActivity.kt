@@ -2,28 +2,21 @@ package com.example.rss_maariv_pplication
 
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Xml
 import android.view.View
-import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.myapplication.R
 import org.xmlpull.v1.XmlPullParser
-import org.xmlpull.v1.XmlPullParserException
 import java.io.InputStream
 import java.net.URL
-import org.jsoup.Jsoup
 import org.xmlpull.v1.XmlPullParserFactory
 import java.util.Date
 
 class MainActivity : AppCompatActivity() {
-    var rssItemsArrayList = ArrayList<RssItem>()
+    //var rssItemsArrayList = ArrayList<RssItem>()
 
     lateinit var progressBar: ProgressBar
     lateinit var recyclerView: RecyclerView
@@ -49,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         //simulateProgress()
         buttonGetRssItem.setOnClickListener {
             simulateProgress()
-            Toast.makeText(this@MainActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this@MainActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
 
         }
 
