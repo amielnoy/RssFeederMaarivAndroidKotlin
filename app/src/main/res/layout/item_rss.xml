@@ -6,16 +6,30 @@
     android:padding="8dp">
 
     <TextView
+        android:id="@+id/text_view_publication_date"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/text_view_author"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:layout_marginTop="4dp" />
+
+    <TextView
         android:id="@+id/text_view_title"
         android:layout_width="match_parent"
-        android:layout_height="211dp"
+        android:layout_height="73dp"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/material_dynamic_neutral_variant70"/>
 
     <TextView
         android:id="@+id/text_view_link"
         android:layout_width="match_parent"
-        android:layout_height="183dp"
-        android:layout_marginTop="4dp" />
+        android:layout_height="82dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/design_default_color_on_primary"/>
 
 </LinearLayout>
