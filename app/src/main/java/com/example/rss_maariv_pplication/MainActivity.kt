@@ -3,6 +3,7 @@ package com.example.rss_maariv_pplication
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Xml
+import android.view.View
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ProgressBar
@@ -33,17 +34,39 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         buttonGetRssItem=findViewById(R.id.button_get_rss_item)
+
+        progressBar=findViewById(R.id.rss_progress_bar)
+        progressBar.minWidth=1
+        progressBar.maxWidth=100
+
         recyclerView = findViewById(R.id.rss_recycler_view)
         recyclerView.layoutManager=LinearLayoutManager(this)
-
+        simulateProgress()
         FetchRssTask().execute("https://www.maariv.co.il/Rss/RssFeedsKalkalaBaArez")
         //rssAdapter = RssAdapter(rssItemsArrayList)
         //recyclerView.adapter = rssAdapter
-
+        //simulateProgress()
         buttonGetRssItem.setOnClickListener {
+            simulateProgress()
             Toast.makeText(this@MainActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
 
         }
+
+    }
+
+     private fun simulateProgress() {
+        Thread {
+            for (i in 0..100) {
+                // Delay for demonstration purposes
+                Thread.sleep(50)
+
+                // Update the progress bar on the UI thread
+                runOnUiThread {
+                    progressBar.progress = i
+                    progressBar.minWidth
+                }
+            }
+        }.start()
     }
 
     inner class FetchRssTask : AsyncTask<String, Void, List<RssItem>>() {
@@ -59,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: List<RssItem>) {
             rssAdapter = RssAdapter(result)
             recyclerView.adapter = rssAdapter
+            progressBar.visibility= View.VISIBLE
         }
 
         private fun parseRssFeed(inputStream: InputStream): ArrayList<RssItem> {
@@ -85,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                         } else if (parser.name == "Author" && currentItem != null) {
                             currentItem.author = parser.nextText()
                         }else if (parser.name == "pubDate" && currentItem != null) {
-                            currentItem.pubDate = Date()
+                           // currentItem.pubDate = parser.nextText()
                         }
                     }
                     XmlPullParser.END_TAG -> {

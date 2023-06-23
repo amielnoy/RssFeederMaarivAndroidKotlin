@@ -46,6 +46,7 @@ class RssAdapter(private val rssItems: List<RssItem>) :
         fun update(FeedItemsList: ArrayList<RssItem>) {
                 rssFeedItems.clear()
                 rssFeedItems.addAll(FeedItemsList)
+
                 notifyDataSetChanged()
         }
 }
