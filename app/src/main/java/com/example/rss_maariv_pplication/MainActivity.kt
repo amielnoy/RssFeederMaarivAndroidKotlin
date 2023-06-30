@@ -18,7 +18,14 @@ import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
 import java.net.URL
 import org.xmlpull.v1.XmlPullParserFactory
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
+import java.time.format.DateTimeParseException
 import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     var rssItemsArrayList = ArrayList<RssItem>()
@@ -104,6 +111,9 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: List<RssItem>) {
             rssAdapter = RssAdapter(result)
             recyclerView.adapter = rssAdapter
+            CoroutineScope(IO).launch {
+                delay(300)
+            }
             progressBar.visibility= View.VISIBLE
         }
 
@@ -123,7 +133,7 @@ class MainActivity : AppCompatActivity() {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
                         if (parser.name == "item") {
-                            currentItem = RssItem("", "","", Date())
+                            currentItem = RssItem("", "","", LocalDate.now())
                         } else if (parser.name == "link") /*&& currentItem != null)*/ {
                             if (currentItem != null) {
                                 currentItem.link = parser.nextText()
@@ -133,7 +143,17 @@ class MainActivity : AppCompatActivity() {
                         } else if (parser.name == "Author" && currentItem != null) {
                             currentItem.author = parser.nextText()
                         }else if (parser.name == "pubDate" && currentItem != null) {
-                           // currentItem.pubDate = parser.nextText()
+                            val dateText = parser.nextText()
+                            val pattern = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
+
+                            try {
+                                val zonedDateTime = ZonedDateTime.parse(dateText, pattern)
+                                val localDateTime = LocalDateTime.from(zonedDateTime)
+                                currentItem.pubDate = localDateTime.toLocalDate()
+                            } catch (e: DateTimeParseException) {
+                                // Handle parsing error
+                                currentItem.pubDate = LocalDate.now()
+                            }
                         }
                     }
                     XmlPullParser.END_TAG -> {
