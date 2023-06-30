@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import kotlinx.coroutines.delay
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
 import java.net.URL
@@ -119,7 +120,8 @@ class MainActivity : AppCompatActivity() {
                             rssItemsArrayList.add(currentItem)
                             progressBarValue=rssItemsArrayList.size*5
                             simulateProgress()
-                            Thread.sleep(1000)
+                            Thread.sleep(500)
+
                             currentItem = null
                         }
                     }
