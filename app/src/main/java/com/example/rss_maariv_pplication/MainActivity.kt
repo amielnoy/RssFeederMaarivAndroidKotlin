@@ -10,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
 import java.net.URL
@@ -56,19 +59,36 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-     private fun simulateProgress() {
-        Thread {
-            //for (i in 0..100) {
-                // Delay for demonstration purposes
-                Thread.sleep(2000)
+//     private fun simulateProgress() {
+//        Thread {
+//            CoroutineScope(IO).launch {
+//            //for (i in 0..100) {
+//                // Delay for demonstration purposes
+//                //Thread.sleep(500)
+//                delay(500)
+//                // Update the progress bar on the UI thread
+//                runOnUiThread {
+//                    progressBar.progress = progressBarValue
+//                    progressBar.minWidth
+//
+//                }
+//            }
+//        }.start()
+//    }
+
+    private fun simulateProgress() {
+        CoroutineScope(IO).launch {
+            for (i in 0..100) {
+                delay(500) // Delay for 50 milliseconds
 
                 // Update the progress bar on the UI thread
                 runOnUiThread {
                     progressBar.progress = progressBarValue
-                    progressBar.minWidth
                 }
-            //}
-        }.start()
+
+                //progressBarValue++
+            }
+        }
     }
 
     inner class FetchRssTask : AsyncTask<String, Void, List<RssItem>>() {
@@ -90,6 +110,7 @@ class MainActivity : AppCompatActivity() {
         private fun parseRssFeed(inputStream: InputStream): ArrayList<RssItem> {
             rssItemsArrayList = ArrayList<RssItem>()
             progressBarValue=0
+            var totalItems: Int=20
 
             val factory = XmlPullParserFactory.newInstance()
             val parser = factory.newPullParser()
@@ -118,10 +139,12 @@ class MainActivity : AppCompatActivity() {
                     XmlPullParser.END_TAG -> {
                         if (parser.name == "item" && currentItem != null) {
                             rssItemsArrayList.add(currentItem)
-                            progressBarValue=rssItemsArrayList.size*5
-                            simulateProgress()
-                            Thread.sleep(500)
+                            Thread.sleep(300)
+                            progressBarValue = (rssItemsArrayList.size.toFloat() / totalItems.toFloat() * 100).toInt()
 
+                            runOnUiThread {
+                                progressBar.progress = progressBarValue
+                            }
                             currentItem = null
                         }
                     }
@@ -129,10 +152,11 @@ class MainActivity : AppCompatActivity() {
 
                 eventType = parser.next()
             }
-                //progressBarValue=100
             return rssItemsArrayList
         }
     }
+
+
 
 }
 
