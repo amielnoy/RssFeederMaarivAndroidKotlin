@@ -1,5 +1,6 @@
 package com.example.rss_maariv_pplication
 
+import RssAdapter
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View

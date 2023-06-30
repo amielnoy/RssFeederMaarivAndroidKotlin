@@ -1,4 +1,5 @@
-package com.example.rss_maariv_pplication
+import com.example.rss_maariv_pplication.RssItem
+
 
 import android.content.Intent
 import android.net.Uri
