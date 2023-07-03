@@ -6,28 +6,17 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/text_view_publication_date"
-        android:layout_width="match_parent"
-        android:layout_height="82dp"
-        android:textStyle="bold"
-        android:layout_marginTop="4dp" />
-
-    <TextView
-        android:id="@+id/text_view_author"
-        android:layout_width="match_parent"
-        android:layout_height="82dp"
-        android:layout_marginTop="4dp" />
-
-    <TextView
-        android:id="@+id/text_view_title"
-        android:layout_width="match_parent"
-        android:layout_height="73dp"
-        android:textAppearance="?android:textAppearanceMedium"
+        android:id="@+id/tvDtls"
+        android:gravity="right"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:maxLines="10"
+        android:lines="10"
         android:textStyle="bold"
         android:textColor="@color/material_dynamic_neutral_variant70"/>
 
     <TextView
-        android:id="@+id/text_view_link"
+        android:id="@+id/tvKy"
         android:layout_width="match_parent"
         android:layout_height="82dp"
         android:layout_marginTop="4dp"

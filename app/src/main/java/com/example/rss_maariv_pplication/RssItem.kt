@@ -11,7 +11,9 @@ class RssItem(var link: String, var title: String, var author: String, var pubDa
 
 
     override fun toString(): String {
-        return "MyClass(link='$link', title='$title', author='$author', date=${dateFormat.format(Date())})"
+        return "הכותרת:\n $title \n\nהכתב:\n" +
+                "  $author \n תאריך הפירסום: " +
+                "\n${dateFormat.format(Date())} \n"
     }
 }
 

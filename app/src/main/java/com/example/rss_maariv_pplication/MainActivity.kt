@@ -23,11 +23,11 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 import java.time.format.DateTimeParseException
-import java.util.Date
 import java.util.Locale
-
+/*******************************************************************************
+*********************************BY HADAR SADEH*********************************
+ *******************************************************************************/
 class MainActivity : AppCompatActivity() {
     var rssItemsArrayList = ArrayList<RssItem>()
 
@@ -51,54 +51,37 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.rss_recycler_view)
         recyclerView.layoutManager=LinearLayoutManager(this)
+
         simulateProgress()
         FetchRssTask().execute("https://www.maariv.co.il/Rss/RssFeedsKalkalaBaArez")
-        //rssAdapter = RssAdapter(rssItemsArrayList)
-        //recyclerView.adapter = rssAdapter
-        //simulateProgress()
+
         buttonGetRssItem.setOnClickListener {
             simulateProgress()
-            Toast.makeText(this@MainActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this@MainActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
             rssItemsArrayList.clear()
             FetchRssTask().execute("https://www.maariv.co.il/Rss/RssFeedsKalkalaBaArez")
             rssAdapter = RssAdapter(rssItemsArrayList)
             recyclerView.adapter = rssAdapter
         }
-
     }
 
-//     private fun simulateProgress() {
-//        Thread {
-//            CoroutineScope(IO).launch {
-//            //for (i in 0..100) {
-//                // Delay for demonstration purposes
-//                //Thread.sleep(500)
-//                delay(500)
-//                // Update the progress bar on the UI thread
-//                runOnUiThread {
-//                    progressBar.progress = progressBarValue
-//                    progressBar.minWidth
-//
-//                }
-//            }
-//        }.start()
-//    }
 
     private fun simulateProgress() {
         CoroutineScope(IO).launch {
-            for (i in 0..100) {
-                delay(500) // Delay for 50 milliseconds
+            val totalItems: Int = 20
+            for (i in 0..totalItems) {
+                delay(500) // Delay for 500 milliseconds
+
+                // Calculate the progress value
+                val progress = (i.toFloat() / totalItems.toFloat() * 100).toInt()
 
                 // Update the progress bar on the UI thread
                 runOnUiThread {
-                    progressBar.progress = progressBarValue
+                    progressBar.progress = progress
                 }
-
-                //progressBarValue++
             }
         }
     }
-
     inner class FetchRssTask : AsyncTask<String, Void, List<RssItem>>() {
 
         override fun doInBackground(vararg urls: String): ArrayList<RssItem> {
@@ -112,9 +95,7 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: List<RssItem>) {
             rssAdapter = RssAdapter(result)
             recyclerView.adapter = rssAdapter
-            CoroutineScope(IO).launch {
-                delay(300)
-            }
+
             progressBar.visibility= View.VISIBLE
         }
 
@@ -160,7 +141,6 @@ class MainActivity : AppCompatActivity() {
                     XmlPullParser.END_TAG -> {
                         if (parser.name == "item" && currentItem != null) {
                             rssItemsArrayList.add(currentItem)
-                            Thread.sleep(300)
                             progressBarValue = (rssItemsArrayList.size.toFloat() / totalItems.toFloat() * 100).toInt()
 
                             runOnUiThread {

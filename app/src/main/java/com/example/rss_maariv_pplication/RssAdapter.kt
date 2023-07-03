@@ -14,10 +14,10 @@ class RssAdapter(private val rssItems: List<RssItem>) :
         RecyclerView.Adapter<RssAdapter.RssViewHolder>() {
 
         class RssViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-                val textViewTitle: TextView = itemView.findViewById(R.id.text_view_title)
-                val textViewLink: TextView = itemView.findViewById(R.id.text_view_link)
-                val textViewAuthor: TextView = itemView.findViewById(R.id.text_view_author)
-                val textViewPubDate: TextView = itemView.findViewById(R.id.text_view_publication_date)
+                val textViewTitle: TextView = itemView.findViewById(R.id.tvDtls)
+                val textViewLink: TextView = itemView.findViewById(R.id.tvKy)
+                //val textViewAuthor: TextView = itemView.findViewById(R.id.text_view_author)
+                //val textViewPubDate: TextView = itemView.findViewById(R.id.text_view_publication_date)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RssViewHolder {
@@ -28,10 +28,10 @@ class RssAdapter(private val rssItems: List<RssItem>) :
 
         override fun onBindViewHolder(holder: RssViewHolder, position: Int) {
                 val currentItem = rssItems[position]
-                holder.textViewTitle.text = currentItem.title
-                holder.textViewLink.text = currentItem.link
-                holder.textViewAuthor.text = currentItem.author
-                holder.textViewPubDate.text = currentItem.pubDate.toString()
+                holder.textViewTitle.text = currentItem.toString()
+                holder.textViewLink.text = "הקישור"+"\n"+currentItem.link
+                //holder.textViewAuthor.text = currentItem.author
+                //holder.textViewPubDate.text = currentItem.pubDate.toString()
 
                 holder.itemView.setOnClickListener {
                         val item = rssItems[position]

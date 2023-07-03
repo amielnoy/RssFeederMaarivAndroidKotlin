@@ -23,6 +23,7 @@
         android:id="@+id/text_view_rss_desction"
         android:layout_width="match_parent"
         android:layout_height="88dp"
+        android:gravity="center"
         android:textSize="32sp"
         android:text="@string/DETAILS_OF_MAARIV_RSS_FEED"  />
 
