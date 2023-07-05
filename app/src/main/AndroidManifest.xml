@@ -14,7 +14,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name="com.example.rss_maariv_pplication.MainActivity"
+            android:name="com.example.rss_maariv_pplication.MyMainActivity"
             android:exported="true"
 
             android:theme="@style/Theme.AppCompat">

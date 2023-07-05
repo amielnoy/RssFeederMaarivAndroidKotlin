@@ -1,6 +1,6 @@
 package com.example.rss_maariv_pplication
 
-import RssAdapter
+import MaarivRssAdapter
 import android.os.AsyncTask
 import android.os.Bundle
 import android.widget.Button
@@ -25,14 +25,14 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.Locale
-class MainActivity : AppCompatActivity() {
+class MyMainActivity : AppCompatActivity() {
     var rssItemsArrayList = ArrayList<RssItem>()
 
     lateinit var progressBar: ProgressBar
     var progressBarValue: Int = 0
 
     lateinit var recyclerView: RecyclerView
-    private lateinit var rssAdapter: RssAdapter
+    private lateinit var rssAdapter: MaarivRssAdapter
     lateinit var buttonGetRssItem: Button
 
 
@@ -49,39 +49,24 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.rss_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        simulateProgress()
-        FetchRssTask().execute("https://www.maariv.co.il/Rss/RssFeedsKalkalaBaArez")
+        simulateRssProgressBar()
+        FetchMaarivRssFeedTask().execute("https://www.maariv.co.il/Rss/RssFeedsKalkalaBaArez")
 
         buttonGetRssItem.setOnClickListener {
-            simulateProgress()
+            simulateRssProgressBar()
             //Toast.makeText(this@MainActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
             rssItemsArrayList.clear()
-            FetchRssTask().execute("https://www.maariv.co.il/Rss/RssFeedsKalkalaBaArez")
-            rssAdapter = RssAdapter(rssItemsArrayList)
+            FetchMaarivRssFeedTask().execute("https://www.maariv.co.il/Rss/RssFeedsKalkalaBaArez")
+            rssAdapter = MaarivRssAdapter(rssItemsArrayList)
             recyclerView.adapter = rssAdapter
         }
     }
 
     /*Advance the progress bar according to the rss feed advancment*/
-    private fun simulateProgress() {
-        CoroutineScope(IO).launch {
-            val totalItems: Int = 20
-            for (i in 0..totalItems) {
-                delay(500) // Delay for 500 milliseconds
-
-                // Calculate the progress value
-                val progress = (i.toFloat() / totalItems.toFloat() * 100).toInt()
-
-                // Update the progress bar on the UI thread
-                runOnUiThread {
-                    progressBar.progress = progress
-                }
-            }
-        }
-    }
 
 
-    inner class FetchRssTask : AsyncTask<String, Void, List<RssItem>>() {
+
+    inner class FetchMaarivRssFeedTask : AsyncTask<String, Void, List<RssItem>>() {
 
         /*create input stream object for parseRssFeed method*/
         /*Handle Internet connection errors                */
@@ -93,33 +78,31 @@ class MainActivity : AppCompatActivity() {
                     inputStream = connection.getInputStream()
                 } catch (e: IOException) {
                     // Handle internet connection error
-                    Toast.makeText(this@MainActivity, "INPUT OUTPUT ERROR.", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@MyMainActivity, "INPUT OUTPUT ERROR.", Toast.LENGTH_SHORT)
                         .show()
                 } catch (e: Exception) {
                     // Handle other exceptions
-                    Toast.makeText(this@MainActivity, "INTERNET CONNECTION ERROR.", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@MyMainActivity, "INTERNET CONNECTION ERROR.", Toast.LENGTH_SHORT)
                         .show()
                 }
 
                 inputStream?.let {
-                    return parseRssFeed(it)
+                    return parseMaarivRssFeed(it)
                 }
 
                 return emptyList()
             }
 
-
-
-
        /*Update recyclerView adapter      */
         override  fun onPostExecute(result: List<RssItem>) {
-            rssAdapter = RssAdapter(result)
+            rssAdapter = MaarivRssAdapter(result)
             recyclerView.adapter = rssAdapter
         }
+
         /*Parse all the maariv feeds by the input url
         and return a list of rssItems for the RecyclerView adapter to use
         Handale feed syntax errors*/
-        private fun parseRssFeed(inputStream: InputStream): ArrayList<RssItem> {
+        private fun parseMaarivRssFeed(inputStream: InputStream): ArrayList<RssItem> {
             rssItemsArrayList = ArrayList<RssItem>()
             progressBarValue = 0
             var totalItems: Int = 20
@@ -179,16 +162,33 @@ class MainActivity : AppCompatActivity() {
 
                         eventType = parser.next()
                     } catch (e: IOException) {
-                        Toast.makeText(this@MainActivity, "FEED Parsing ERROR.", Toast.LENGTH_SHORT)
+                        Toast.makeText(this@MyMainActivity, "FEED Parsing ERROR.", Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@MainActivity, "INTERNET CONNECTION ERROR", Toast.LENGTH_SHORT)
+                Toast.makeText(this@MyMainActivity, "INTERNET CONNECTION ERROR", Toast.LENGTH_SHORT)
                     .show()
                 e.printStackTrace()
             }
             return rssItemsArrayList
+        }
+    }
+
+    private fun simulateRssProgressBar() {
+        CoroutineScope(IO).launch {
+            val totalItems: Int = 20
+            for (i in 0..totalItems) {
+                delay(500) // Delay for 500 milliseconds
+
+                // Calculate the progress value
+                val progress = (i.toFloat() / totalItems.toFloat() * 100).toInt()
+
+                // Update the progress bar on the UI thread
+                runOnUiThread {
+                    progressBar.progress = progress
+                }
+            }
         }
     }
 }
