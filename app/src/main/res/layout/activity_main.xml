@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toolbar_top"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:minHeight="?attr/actionBarSize"
+    android:layout_gravity="center"
+
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:orientation="vertical"
     tools:context="com.example.rss_maariv_pplication.MainActivity"
     tools:visibility="visible">
-
-
 
     <ProgressBar
         android:id="@+id/rss_progress_bar"
@@ -25,6 +27,7 @@
         android:layout_height="88dp"
         android:gravity="center"
         android:textSize="32sp"
+        android:textColor="#5b39c6"
         android:text="@string/DETAILS_OF_MAARIV_RSS_FEED"  />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -37,5 +40,4 @@
         android:layout_width="198dp"
         android:layout_height="wrap_content"
         android:text="@string/get_rss_item" />
-
 </LinearLayout>

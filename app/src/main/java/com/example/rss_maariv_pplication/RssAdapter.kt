@@ -12,7 +12,7 @@ import com.example.myapplication.R
 
 class RssAdapter(private val rssItems: List<RssItem>) :
         RecyclerView.Adapter<RssAdapter.RssViewHolder>() {
-
+        /* create references to the controls inside the recyceler view*/
         class RssViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 val textViewTitle: TextView = itemView.findViewById(R.id.tvDtls)
                 val textViewLink: TextView = itemView.findViewById(R.id.tvKy)
@@ -25,13 +25,12 @@ class RssAdapter(private val rssItems: List<RssItem>) :
                         .inflate(R.layout.item_rss, parent, false)
                 return RssViewHolder(itemView)
         }
-
+        /* populate the data from the rssItem to the controls on RecyclerView*/
+        /*implement click event for the link text view control               */
         override fun onBindViewHolder(holder: RssViewHolder, position: Int) {
                 val currentItem = rssItems[position]
                 holder.textViewTitle.text = currentItem.toString()
                 holder.textViewLink.text = "הקישור"+"\n"+currentItem.link
-                //holder.textViewAuthor.text = currentItem.author
-                //holder.textViewPubDate.text = currentItem.pubDate.toString()
 
                 holder.itemView.setOnClickListener {
                         val item = rssItems[position]

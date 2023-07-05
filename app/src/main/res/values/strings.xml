@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Marriv Rss Feed</string>
     <string name="get_rss_item">Get Rss Item</string>
     <string name="DETAILS_OF_MAARIV_RSS_FEED">קבל את פרטי כתבות הכלכלה</string>
 </resources>
